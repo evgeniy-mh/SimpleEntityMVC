@@ -33,7 +33,7 @@ namespace MyUniversity.Controllers
             {
                 return HttpNotFound();
             }
-            
+
             return View(student);
         }
 
@@ -52,14 +52,14 @@ namespace MyUniversity.Controllers
         {
             try
             {
-                if(string.IsNullOrEmpty(student.FirstName))
+                if (string.IsNullOrEmpty(student.FirstName))
                 {
                     ModelState.AddModelError("FirstName", "Wrong name :(");
                 }
                 if (string.IsNullOrEmpty(student.LastName))
                 {
                     ModelState.AddModelError("LastName", "Wrong last name :(");
-                }                
+                }
 
                 if (ModelState.IsValid)
                 {
@@ -68,7 +68,7 @@ namespace MyUniversity.Controllers
                     return RedirectToAction("Index");
                 }
             }
-            catch(DataException )
+            catch (DataException)
             {
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
             }
@@ -98,11 +98,27 @@ namespace MyUniversity.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,FirstName,LastName,EnrollmentDate")] Student student)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(student).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (string.IsNullOrEmpty(student.FirstName))
+                {
+                    ModelState.AddModelError("FirstName", "Wrong name :(");
+                }
+                if (string.IsNullOrEmpty(student.LastName))
+                {
+                    ModelState.AddModelError("LastName", "Wrong last name :(");
+                }
+
+                if (ModelState.IsValid)
+                {
+                    db.Entry(student).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (DataException)
+            {
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
             }
             return View(student);
         }
