@@ -33,6 +33,7 @@ namespace MyUniversity.Controllers
             {
                 return HttpNotFound();
             }
+            
             return View(student);
         }
 
