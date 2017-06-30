@@ -16,12 +16,20 @@ namespace MyUniversity.Controllers
         private SchoolContext db = new SchoolContext();
 
         // GET: Student
-        public ActionResult Index(string sortOrder)
+        public ActionResult Index(string sortOrder, string searchString)
         {
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            ViewBag.DateSortParm = sortOrder == "date" ? "date_desc" : "date";
+            ViewBag.DateSortParm = sortOrder == "date" ? "date_desc" : "date";            
 
             var students = from st in db.Students select st;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                students = students.Where(
+                    s => s.LastName.Contains(searchString) || s.LastName.Contains(searchString)
+                    );
+            }
+
             switch (sortOrder)
             {
                 case "name_desc":
