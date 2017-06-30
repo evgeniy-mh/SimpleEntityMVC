@@ -1,8 +1,25 @@
-﻿@{
-    ViewBag.Title = "About";
-}
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
+﻿@model IEnumerable<MyUniversity.ViewModels.EnrollmentDateGroup>
 
-<p>Me:</p>
+@{
+    ViewBag.Title = "Student Body Statistics";
+}
+
+<h2>Student Body Statistics</h2>
+
+<table>
+    <tr>
+        <th>Enrollment Date</th>
+        <th>Students</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(i => item.EnrollmentDate)</td>
+            <td>@item.studentCount</td>
+        </tr>
+    }
+</table>
+
+<p>About me:</p>
 <a href="https://vk.com/evgeniy_mh">vk.com/evgeniy_mh</a>
